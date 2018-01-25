@@ -1,5 +1,7 @@
 var cells = [0,0,0,0,0,0,0,0,0];
 var gameOver = false;
+var autop1 = true;
+var autop2 = false;
 
 function turn(t) {
   var t = 0;
@@ -28,6 +30,20 @@ function checkForWin(){
   checkThreeForWin(2,4,6);
 }
 
+function takeXturn () {
+  var emptyCells = [];
+  cells.forEach(function(i,j) {if(i===0)emptyCells.push(j)});
+  var pickedCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  clickedCell(pickedCell);
+}
+
+function takeOturn () {
+  var emptyCells = [];
+  cells.forEach(function(i,j) {if(i===0)emptyCells.push(j)});
+  var pickedCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+  clickedCell(pickedCell);
+}
+
 function clickedCell(i) {
   if (cells[i] === 0 && !gameOver) {
     if (turn() % 2 === 0) {
@@ -40,12 +56,14 @@ function clickedCell(i) {
     checkForWin();
     if(turn()===9 && !gameOver) {
       alert ('Game was a draw!')
-      gameOver = true;
     };
   };
+  if (turn() % 2 === 0 && autop1 && !gameOver) {takeXturn ();};
+  if (turn() % 2 === 1 && autop2 && !gameOver) {takeOturn ();};
 }
 
 $(document).ready(function(){
+  if (autop1) {takeXturn ();};
   for (var i = 0; i < cells.length; i++) {
     $("#cell" + i).val(i);
     $("#cell" + i).click(function(event){
