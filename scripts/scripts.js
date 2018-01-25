@@ -6,10 +6,25 @@ function turn(t) {
   return t;
 }
 
+function checkThreeForWin(i,j,k){
+  if (cells[i]!==0 && cells[i]===cells[j] && cells[j]===cells[k]) {
+    if (cells[i]===1) {alert ('X wins!');}
+    if (cells[i]===2) {alert ('O wins!');}
+  };
+}
+
+function checkForWin(){
+  checkThreeForWin(0,1,2);
+  checkThreeForWin(3,4,5);
+  checkThreeForWin(6,7,8);
+  checkThreeForWin(0,3,6);
+  checkThreeForWin(1,4,7);
+  checkThreeForWin(2,5,8);
+  checkThreeForWin(0,4,8);
+  checkThreeForWin(2,4,6);
+}
+
 function clickedCell(i) {
-  console.log (cells);
-  console.log (turn());
-  console.log (i);
   if (cells[i] === 0) {
     if (turn() % 2 === 0) {
         $("#cell"+i).text("X");
@@ -18,19 +33,18 @@ function clickedCell(i) {
         $("#cell"+i).text("O");
         cells[i] = 2;
     };
+    checkForWin();
   };
 }
 
 $(document).ready(function(){
-
   for (var i = 0; i < cells.length; i++) {
     $("#cell" + i).val(i);
     $("#cell" + i).click(function(event){
       event.preventDefault();
       if (cells[$(this).val()] === 0) {clickedCell($(this).val());}
     });
-  }
-
+  };
 });
 
 
